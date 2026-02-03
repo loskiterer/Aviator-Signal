@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoskiDeriv Signals | Aviator & Indices</title>
+    <style>
+        :root {
+            --primary: #d61f27; /* Aviator Red */
+            --deriv: #ff4444;
+            --success: #00e676;
+            --bg: #0b0e11;
+            --card: #181a20;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            background: var(--bg); 
+            color: #fff; 
+            margin: 0;
+            padding-bottom: 50px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--card);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .header h1 { margin: 0; font-size: 1.6rem; letter-spacing: 2px; }
+        .header span { color: var(--primary); }
+
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* Aviator Section */
+        .aviator-card {
+            background: #1f1f1f;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #333;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .aviator-card::before {
+            content: "BETIKA LIVE";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.7rem;
+            color: #777;
+            font-weight: bold;
+        }
+        .game-title { color: #aaa; font-size: 0.9rem; margin-bottom: 10px; display: flex; align-items: center; }
+        .game-title img { width: 20px; margin-right: 8px; }
+
+        .multiplier-display {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(214, 31, 39, 0.4);
+        }
+
+        .predict-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .predict-btn:active { transform: scale(0.98); }
+
+        /* Deriv Section */
+        .deriv-card {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 5px solid var(--deriv);
+        }
+        .deriv-price { font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
+        .signal-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .buy-bg { background: rgba(0, 230, 118, 0.2); color: var(--success); }
+        .sell-bg { background: rgba(255, 68, 68, 0.2); color: var(--deriv); }
+
+        .history {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .hist-item {
+            background: #2b2f3a;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>LOSKI<span>DERIV</span> SIGNALS</h1>
+</div>
+
+<div class="container">
+    
+    <div class="aviator-card">
+        <div class="game-title">
+            <span>✈️ Betika Aviator Predictor</span>
+        </div>
+        
+        <div id="aviator-status" style="text-align: center; color: #555; font-size: 0.8rem;">Ready to Scan</div>
+        <div id="prediction" class="multiplier-display">1.00x</div>
+        
+        <button class="predict-btn" onclick="getPrediction()">GET NEXT SIGNAL</button>
+        
+        <div class="history" id="aviator-history">
+            <span class="hist-item">1.45x</span>
+            <span class="hist-item">2.10x</span>
+            <span class="hist-item" style="color:var(--primary)">1.00x</span>
+            <span class="hist-item">4.55x</span>
+        </div>
+    </div>
+
+    <div class="deriv-card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: #888; font-size: 0.9rem;">Volatility 100 (1s)</span>
+            <span id="signal-badge" class="signal-badge">ANALYZING</span>
+        </div>
+        <div id="price" class="deriv-price">Loading...</div>
+        <div id="advice" style="font-size: 0.8rem; color: #666;">Monitoring live market trends...</div>
+    </div>
+
+</div>
+
+<script>
+    // --- Aviator Logic ---
+    function getPrediction() {
+        const btn = document.querySelector('.predict-btn');
+        const predText = document.getElementById('prediction');
+        const status = document.getElementById('aviator-status');
+        
+        btn.disabled = true;
+        btn.innerText = "SCANNING...";
+        status.innerText = "Analyzing Round History...";
+        
+        // Simulate an algorithm calculation
+        setTimeout(() => {
+            const randomMult = (Math.random() * (5.00 - 1.10) + 1.10).toFixed(2);
+            predText.innerText = randomMult + "x";
+            
+            // Add to history
+            const hist = document.getElementById('aviator-history');
+            const newItem = document.createElement('span');
+            newItem.className = 'hist-item';
+            newItem.innerText = randomMult + "x";
+            hist.prepend(newItem);
+
+            btn.disabled = false;
+            btn.innerText = "GET NEXT SIGNAL";
+            status.innerText = "Signal Generated Successfully";
+        }, 2000);
+    }
+
+    // --- Deriv WebSocket Logic ---
+    const app_id = 1089; 
+    const ws = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${app_id}`);
+    let ticks = [];
+
+    ws.onopen = () => ws.send(JSON.stringify({ "ticks": "1HZ100V" }));
+
+    ws.onmessage = (msg) => {
+        const data = JSON.parse(msg.data);
+        if (data.tick) {
+            const price = data.tick.quote;
+            document.getElementById('price').innerText = price.toFixed(2);
+            
+            ticks.push(price);
+            if (ticks.length > 5) {
+                ticks.shift();
+                const change = ticks[4] - ticks[0];
+                const badge = document.getElementById('signal-badge');
+                
+                if (change > 0.1) {
+                    badge.innerText = "STRONG BUY";
+                    badge.className = "signal-badge buy-bg";
+                } else if (change < -0.1) {
+                    badge.innerText = "STRONG SELL";
+                    badge.className = "signal-badge sell-bg";
+                }
+            }
+        }
+    };
+</script>
+
+</body>
+</html>
+
